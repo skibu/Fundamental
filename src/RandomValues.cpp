@@ -130,9 +130,9 @@ struct RandomValuesWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/RandomValues.svg"), asset::plugin(pluginInstance, "res/RandomValues-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createLightParamCentered<LEDLightBezel<>>(mm2px(Vec(7.62, 21.968)), module, RandomValues::PUSH_PARAM, RandomValues::PUSH_LIGHT));
 

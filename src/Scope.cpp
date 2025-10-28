@@ -261,7 +261,7 @@ struct ScopeDisplay : LedDisplay {
 		}
 
 		nvgSave(args.vg);
-		Rect b = box.zeroPos().shrink(Vec(0, 15));
+		Rect b = getBox().zeroPos().shrink(Vec(0, 15));
 		nvgScissor(args.vg, RECT_ARGS(b));
 		nvgBeginPath(args.vg);
 		// Draw max points on top
@@ -272,14 +272,14 @@ struct ScopeDisplay : LedDisplay {
 				max = 0.f;
 
 			Vec p;
-			p.x = (float) i / (BUFFER_SIZE - 1);
-			p.y = (max + offset) * gain * -0.5f + 0.5f;
+			p.setX((float) i / (BUFFER_SIZE - 1));
+			p.setY((max + offset) * gain * -0.5f + 0.5f);
 			p = b.interpolate(p);
-			p.y -= 1.0;
+			p.setY(p.getY() - 1.0);
 			if (i == 0)
-				nvgMoveTo(args.vg, p.x, p.y);
+				nvgMoveTo(args.vg, p.getX(), p.getY());
 			else
-				nvgLineTo(args.vg, p.x, p.y);
+				nvgLineTo(args.vg, p.getX(), p.getY());
 		}
 		// Draw min points on bottom
 		for (int i = BUFFER_SIZE - 1; i >= 0; i--) {
@@ -289,11 +289,11 @@ struct ScopeDisplay : LedDisplay {
 				min = 0.f;
 
 			Vec p;
-			p.x = (float) i / (BUFFER_SIZE - 1);
-			p.y = (min + offset) * gain * -0.5f + 0.5f;
+			p.setX((float) i / (BUFFER_SIZE - 1));
+			p.setY((min + offset) * gain * -0.5f + 0.5f);
 			p = b.interpolate(p);
-			p.y += 1.0;
-			nvgLineTo(args.vg, p.x, p.y);
+			p.setY(p.getY() + 1.0);
+			nvgLineTo(args.vg, p.getX(), p.getY());
 		}
 		nvgClosePath(args.vg);
 		// nvgLineCap(args.vg, NVG_ROUND);
@@ -316,7 +316,7 @@ struct ScopeDisplay : LedDisplay {
 		}
 
 		nvgSave(args.vg);
-		Rect b = box.zeroPos().shrink(Vec(0, 15));
+		Rect b = getBox().zeroPos().shrink(Vec(0, 15));
 		nvgScissor(args.vg, RECT_ARGS(b));
 		nvgBeginPath(args.vg);
 		int bufferIndex = module->bufferIndex;
@@ -330,13 +330,13 @@ struct ScopeDisplay : LedDisplay {
 				continue;
 
 			Vec p;
-			p.x = (avgX + offsetX) * gainX * 0.5f + 0.5f;
-			p.y = (avgY + offsetY) * gainY * -0.5f + 0.5f;
+			p.setX((avgX + offsetX) * gainX * 0.5f + 0.5f);
+			p.setY((avgY + offsetY) * gainY * -0.5f + 0.5f);
 			p = b.interpolate(p);
 			if (i == 0)
-				nvgMoveTo(args.vg, p.x, p.y);
+				nvgMoveTo(args.vg, p.getX(), p.getY());
 			else
-				nvgLineTo(args.vg, p.x, p.y);
+				nvgLineTo(args.vg, p.getX(), p.getY());
 		}
 		nvgLineCap(args.vg, NVG_ROUND);
 		nvgMiterLimit(args.vg, 2.f);
@@ -348,18 +348,18 @@ struct ScopeDisplay : LedDisplay {
 	}
 
 	void drawTrig(const DrawArgs& args, float value) {
-		Rect b = Rect(Vec(0, 15), box.size.minus(Vec(0, 15 * 2)));
-		nvgScissor(args.vg, b.pos.x, b.pos.y, b.size.x, b.size.y);
+		Rect b = Rect(Vec(0, 15), getSize().minus(Vec(0, 15 * 2)));
+		nvgScissor(args.vg, b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
 		value = value / 2.f + 0.5f;
-		Vec p = Vec(box.size.x, b.pos.y + b.size.y * (1.f - value));
+		Vec p = Vec(getX(), b.getY() + b.getHeight() * (1.f - value));
 
 		// Draw line
 		nvgStrokeColor(args.vg, nvgRGBA(0xff, 0xff, 0xff, 0x10));
 		{
 			nvgBeginPath(args.vg);
-			nvgMoveTo(args.vg, p.x - 13, p.y);
-			nvgLineTo(args.vg, 0, p.y);
+			nvgMoveTo(args.vg, p.getX() - 13, p.getY());
+			nvgLineTo(args.vg, 0, p.getY());
 		}
 		nvgStroke(args.vg);
 
@@ -367,11 +367,11 @@ struct ScopeDisplay : LedDisplay {
 		nvgFillColor(args.vg, nvgRGBA(0xff, 0xff, 0xff, 0x60));
 		{
 			nvgBeginPath(args.vg);
-			nvgMoveTo(args.vg, p.x - 2, p.y - 4);
-			nvgLineTo(args.vg, p.x - 9, p.y - 4);
-			nvgLineTo(args.vg, p.x - 13, p.y);
-			nvgLineTo(args.vg, p.x - 9, p.y + 4);
-			nvgLineTo(args.vg, p.x - 2, p.y + 4);
+			nvgMoveTo(args.vg, p.getX() - 2, p.getY() - 4);
+			nvgLineTo(args.vg, p.getX() - 9, p.getY() - 4);
+			nvgLineTo(args.vg, p.getX() - 13, p.getY());
+			nvgLineTo(args.vg, p.getX() - 9, p.getY() + 4);
+			nvgLineTo(args.vg, p.getX() - 2, p.getY() + 4);
 			nvgClosePath(args.vg);
 		}
 		nvgFill(args.vg);
@@ -381,7 +381,7 @@ struct ScopeDisplay : LedDisplay {
 			nvgFontSize(args.vg, 9);
 			nvgFontFaceId(args.vg, font->handle);
 			nvgFillColor(args.vg, nvgRGBA(0x1e, 0x28, 0x2b, 0xff));
-			nvgText(args.vg, p.x - 8, p.y + 3, "T", NULL);
+			nvgText(args.vg, p.getX() - 8, p.getY() + 3, "T", NULL);
 		}
 		nvgResetScissor(args.vg);
 	}
@@ -395,7 +395,7 @@ struct ScopeDisplay : LedDisplay {
 		nvgTextLetterSpacing(args.vg, -1);
 
 		nvgFillColor(args.vg, nvgRGBA(0xff, 0xff, 0xff, 0x40));
-		nvgText(args.vg, pos.x + 6, pos.y + 11, title, NULL);
+		nvgText(args.vg, pos.getX() + 6, pos.getY() + 11, title, NULL);
 
 		nvgFillColor(args.vg, nvgRGBA(0xff, 0xff, 0xff, 0x80));
 		pos = pos.plus(Vec(20, 11));
@@ -404,28 +404,28 @@ struct ScopeDisplay : LedDisplay {
 		text = "pp ";
 		float pp = stats.max - stats.min;
 		text += isNear(pp, 0.f, 100.f) ? string::f("% 6.2f", pp) : "  ---";
-		nvgText(args.vg, pos.x, pos.y, text.c_str(), NULL);
+		nvgText(args.vg, pos.getX(), pos.getY(), text.c_str(), NULL);
 		text = "max";
 		text += isNear(stats.max, 0.f, 100.f) ? string::f("% 6.2f", stats.max) : "  ---";
-		nvgText(args.vg, pos.x + 60 * 1, pos.y, text.c_str(), NULL);
+		nvgText(args.vg, pos.getX() + 60 * 1, pos.getY(), text.c_str(), NULL);
 		text = "min";
 		text += isNear(stats.min, 0.f, 100.f) ? string::f("% 6.2f", stats.min) : "  ---";
-		nvgText(args.vg, pos.x + 60 * 2, pos.y, text.c_str(), NULL);
+		nvgText(args.vg, pos.getX() + 60 * 2, pos.getY(), text.c_str(), NULL);
 	}
 
 	void drawBackground(const DrawArgs& args) {
-		Rect b = box.zeroPos().shrink(Vec(0, 15));
+		Rect b = getBox().zeroPos().shrink(Vec(0, 15));
 
 		nvgStrokeColor(args.vg, nvgRGBA(0xff, 0xff, 0xff, 0x10));
 		for (int i = 0; i < 5; i++) {
 			nvgBeginPath(args.vg);
 
 			Vec p;
-			p.x = 0.0;
-			p.y = float(i) / (5 - 1);
+			p.setX(0.0);
+			p.setY(float(i) / (5 - 1));
 			nvgMoveTo(args.vg, VEC_ARGS(b.interpolate(p)));
 
-			p.x = 1.0;
+			p.setX(1.0);
 			nvgLineTo(args.vg, VEC_ARGS(b.interpolate(p)));
 			nvgStroke(args.vg);
 		}
@@ -448,8 +448,8 @@ struct ScopeDisplay : LedDisplay {
 		// Get input colors
 		PortWidget* inputX = moduleWidget->getInput(Scope::X_INPUT);
 		PortWidget* inputY = moduleWidget->getInput(Scope::Y_INPUT);
-		CableWidget* inputXCable = APP->scene->rack->getTopCable(inputX);
-		CableWidget* inputYCable = APP->scene->rack->getTopCable(inputY);
+		CableWidget* inputXCable = getRack()->getTopCable(inputX);
+		CableWidget* inputYCable = getRack()->getTopCable(inputY);
 		NVGcolor inputXColor = inputXCable ? inputXCable->color : SCHEME_YELLOW;
 		NVGcolor inputYColor = inputYCable ? inputYCable->color : SCHEME_YELLOW;
 
@@ -491,7 +491,7 @@ struct ScopeDisplay : LedDisplay {
 		statsFrame = (statsFrame + 1) % 4;
 
 		drawStats(args, Vec(0, 0 + 1), "1", statsX);
-		drawStats(args, Vec(0, box.size.y - 15 - 1), "2", statsY);
+		drawStats(args, Vec(0, getHeight() - 15 - 1), "2", statsY);
 	}
 };
 
@@ -502,9 +502,9 @@ struct ScopeWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Scope.svg"), asset::plugin(pluginInstance, "res/Scope-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(8.643, 80.603)), module, Scope::LISSAJOUS_PARAM, Scope::LISSAJOUS_LIGHT));
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(24.897, 80.551)), module, Scope::X_SCALE_PARAM));
@@ -523,7 +523,7 @@ struct ScopeWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(45.212, 113.115)), module, Scope::Y_OUTPUT));
 
 		ScopeDisplay* display = createWidget<ScopeDisplay>(mm2px(Vec(0.0, 13.039)));
-		display->box.size = mm2px(Vec(66.04, 55.88));
+		display->setSize(mm2px(Vec(66.04, 55.88)));
 		display->module = module;
 		display->moduleWidget = this;
 		addChild(display);

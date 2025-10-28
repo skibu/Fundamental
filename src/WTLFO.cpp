@@ -254,9 +254,9 @@ struct WTLFOWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/WTLFO.svg"), asset::plugin(pluginInstance, "res/WTLFO-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundLargeBlackKnob>(mm2px(Vec(8.913, 56.388)), module, WTLFO::FREQ_PARAM));
 		addParam(createParamCentered<RoundLargeBlackKnob>(mm2px(Vec(26.647, 56.388)), module, WTLFO::POS_PARAM));
@@ -275,7 +275,7 @@ struct WTLFOWidget : ModuleWidget {
 		addChild(createLightCentered<SmallLight<RedGreenBlueLight>>(mm2px(Vec(17.731, 49.409)), module, WTLFO::PHASE_LIGHT));
 
 		WTDisplay<WTLFO>* display = createWidget<WTDisplay<WTLFO>>(mm2px(Vec(0.004, 13.04)));
-		display->box.size = mm2px(Vec(35.56, 29.224));
+		display->setSize(mm2px(Vec(35.56, 29.224)));
 		display->module = module;
 		addChild(display);
 	}

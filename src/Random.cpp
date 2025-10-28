@@ -274,9 +274,9 @@ struct RandomWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Random.svg"), asset::plugin(pluginInstance, "res/Random-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createLightParamCentered<VCVLightSlider<YellowLight>>(mm2px(Vec(6.479, 33.605)), module, Random::RATE_PARAM, Random::RATE_LIGHT));
 		addParam(createLightParamCentered<VCVLightSlider<YellowLight>>(mm2px(Vec(17.315, 33.605)), module, Random::PROB_PARAM, Random::PROB_LIGHT));

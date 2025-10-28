@@ -113,9 +113,9 @@ struct UnityWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Unity.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(15, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 30, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 30, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(15, 365)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 30, 365)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 30, 365)));
 
 		addParam(createParam<CKSS>(mm2px(Vec(12.867, 52.961)), module, Unity::AVG1_PARAM));
 		addParam(createParam<CKSS>(mm2px(Vec(12.867, 107.006)), module, Unity::AVG2_PARAM));

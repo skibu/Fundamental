@@ -139,7 +139,7 @@ struct QuantizerButton : OpaqueWidget {
 		if (layer != 1)
 			return;
 
-		Rect r = box.zeroPos();
+		Rect r = getBox().zeroPos();
 		const float margin = mm2px(1.0);
 		Rect rMargin = r.grow(Vec(margin, margin));
 
@@ -218,8 +218,8 @@ struct QuantizerDisplay : LedDisplay {
 		static const std::vector<int> whiteNotes = {0, 2, 4, 5, 7, 9, 11};
 		for (int note : whiteNotes) {
 			QuantizerButton* quantizerButton = new QuantizerButton();
-			quantizerButton->box.pos = noteAbsPositions[note] - box.pos;
-			quantizerButton->box.size = noteSizes[note];
+			quantizerButton->setPos(noteAbsPositions[note] - getPos());
+			quantizerButton->setSize(noteSizes[note]);
 			quantizerButton->module = module;
 			quantizerButton->note = note;
 			addChild(quantizerButton);
@@ -228,8 +228,8 @@ struct QuantizerDisplay : LedDisplay {
 		static const std::vector<int> blackNotes = {1, 3, 6, 8, 10};
 		for (int note : blackNotes) {
 			QuantizerButton* quantizerButton = new QuantizerButton();
-			quantizerButton->box.pos = noteAbsPositions[note] - box.pos;
-			quantizerButton->box.size = noteSizes[note];
+			quantizerButton->setPos(noteAbsPositions[note] - getPos());
+			quantizerButton->setSize(noteSizes[note]);
 			quantizerButton->module = module;
 			quantizerButton->note = note;
 			addChild(quantizerButton);
@@ -244,9 +244,9 @@ struct QuantizerWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Quantizer.svg"), asset::plugin(pluginInstance, "res/Quantizer-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.62, 80.551)), module, Quantizer::OFFSET_PARAM));
 
@@ -255,7 +255,7 @@ struct QuantizerWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 113.115)), module, Quantizer::PITCH_OUTPUT));
 
 		QuantizerDisplay* quantizerDisplay = createWidget<QuantizerDisplay>(mm2px(Vec(0.0, 13.039)));
-		quantizerDisplay->box.size = mm2px(Vec(15.24, 55.88));
+		quantizerDisplay->setSize(mm2px(Vec(15.24, 55.88)));
 		quantizerDisplay->setModule(module);
 		addChild(quantizerDisplay);
 	}

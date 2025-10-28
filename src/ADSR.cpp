@@ -209,8 +209,8 @@ struct ADSRDisplay : LedDisplay {
 
 			Rect gridBox = getBox().zeroPos().shrink(Vec(0, 6.5));
 			Rect r = gridBox;
-			r.pos.x += 4.5;
-			r.size.x -= 4.5;
+			r.setX(r.getX() + 4.5);
+			r.setWidth(r.getWidth() - 4.5);
 			Vec p;
 
 			// Get parameters
@@ -361,9 +361,9 @@ struct ADSRWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/ADSR.svg"), asset::plugin(pluginInstance, "res/ADSR-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createLightParamCentered<VCVLightSlider<YellowLight>>(mm2px(Vec(6.604, 55.454)), module, ADSR::ATTACK_PARAM, ADSR::ATTACK_LIGHT));
 		addParam(createLightParamCentered<VCVLightSlider<YellowLight>>(mm2px(Vec(17.441, 55.454)), module, ADSR::DECAY_PARAM, ADSR::DECAY_LIGHT));
@@ -385,7 +385,7 @@ struct ADSRWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(39.119, 113.115)), module, ADSR::ENVELOPE_OUTPUT));
 
 		ADSRDisplay* display = createWidget<ADSRDisplay>(mm2px(Vec(0.0, 13.039)));
-		display->box.size = mm2px(Vec(45.72, 21.219));
+		display->getSize() = mm2px(Vec(45.72, 21.219));
 		display->module = module;
 		addChild(display);
 	}

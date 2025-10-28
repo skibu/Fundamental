@@ -63,7 +63,7 @@ struct OctaveButton : Widget {
 		if (layer != 1)
 			return;
 
-		Vec c = box.size.div(2);
+		Vec c = getSize().div(2);
 
 		int activeOctave = 0;
 		int lastOctave = 0;
@@ -80,7 +80,7 @@ struct OctaveButton : Widget {
 		if (activeOctave == octave) {
 			// Enabled
 			nvgBeginPath(args.vg);
-			nvgCircle(args.vg, c.x, c.y, mm2px(4.0 / 2));
+			nvgCircle(args.vg, getX(), getY(), mm2px(4.0 / 2));
 			if (octave == 0)
 				nvgFillColor(args.vg, color::alpha(color::WHITE, 0.33));
 			else
@@ -90,7 +90,7 @@ struct OctaveButton : Widget {
 		else if (lastOctave == octave) {
 			// Disabled but enabled by CV
 			nvgBeginPath(args.vg);
-			nvgCircle(args.vg, c.x, c.y, mm2px(4.0 / 2));
+			nvgCircle(args.vg, c.getX(), c.getY(), mm2px(4.0 / 2));
 			if (octave == 0)
 				nvgFillColor(args.vg, color::alpha(color::WHITE, 0.5 * 0.33));
 			else
@@ -100,18 +100,18 @@ struct OctaveButton : Widget {
 		else {
 			// Disabled
 			nvgBeginPath(args.vg);
-			nvgCircle(args.vg, c.x, c.y, mm2px(4.0 / 2));
+			nvgCircle(args.vg, c.getX(), c.getY(), mm2px(4.0 / 2));
 			nvgFillColor(args.vg, color::alpha(color::WHITE, 0.33));
 			nvgFill(args.vg);
 
 			nvgBeginPath(args.vg);
-			nvgCircle(args.vg, c.x, c.y, mm2px(3.0 / 2));
+			nvgCircle(args.vg, c.getX(), c.getY(), mm2px(3.0 / 2));
 			nvgFillColor(args.vg, nvgRGB(0x12, 0x12, 0x12));
 			nvgFill(args.vg);
 
 			if (octave == 0) {
 				nvgBeginPath(args.vg);
-				nvgCircle(args.vg, c.x, c.y, mm2px(1.0 / 2));
+				nvgCircle(args.vg, c.getX(), c.getY(), mm2px(1.0 / 2));
 				nvgFillColor(args.vg, color::alpha(color::WHITE, 0.33));
 				nvgFill(args.vg);
 			}
@@ -131,14 +131,14 @@ struct OctaveButton : Widget {
 
 struct OctaveParam : ParamWidget {
 	OctaveParam() {
-		box.size = mm2px(Vec(15.263, 55.88));
+		setSize(mm2px(Vec(15.263, 55.88)));
 		const int octaves = 9;
 		const float margin = mm2px(2.0);
-		float height = box.size.y - 2 * margin;
+		float height = getHeight() - 2 * margin;
 		for (int i = 0; i < octaves; i++) {
 			OctaveButton* octaveButton = new OctaveButton();
-			octaveButton->box.pos = Vec(0, height / octaves * i + margin);
-			octaveButton->box.size = Vec(box.size.x, height / octaves);
+			octaveButton->setPosition(Vec(0, height / octaves * i + margin));
+			octaveButton->setSize(Vec(getWidth(), height / octaves));
 			octaveButton->octave = 4 - i;
 			addChild(octaveButton);
 		}
@@ -175,9 +175,9 @@ struct OctaveWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Octave.svg"), asset::plugin(pluginInstance, "res/Octave-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 80.573)), module, Octave::OCTAVE_INPUT));
 		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 96.859)), module, Octave::PITCH_INPUT));
@@ -185,7 +185,7 @@ struct OctaveWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 113.115)), module, Octave::PITCH_OUTPUT));
 
 		OctaveDisplay* display = createWidget<OctaveDisplay>(mm2px(Vec(0.0, 13.039)));
-		display->box.size = mm2px(Vec(15.263, 55.88));
+		display->setSize(mm2px(Vec(15.263, 55.88)));
 		display->setModule(module);
 		addChild(display);
 	}

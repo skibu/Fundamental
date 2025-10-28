@@ -54,9 +54,9 @@ struct SplitWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Split.svg"), asset::plugin(pluginInstance, "res/Split-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(7.281, 21.967)), module, Split::POLY_INPUT));
 
@@ -78,7 +78,7 @@ struct SplitWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(18.119, 113.115)), module, Split::MONO_OUTPUTS + 15));
 
 		SplitChannelDisplay* display = createWidget<SplitChannelDisplay>(mm2px(Vec(14.02, 18.611)));
-		display->box.size = mm2px(Vec(8.197, 8.197));
+		display->setSize(mm2px(Vec(8.197, 8.197)));
 		display->module = module;
 		addChild(display);
 	}

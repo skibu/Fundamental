@@ -70,7 +70,7 @@ struct DigitalDisplay : Widget {
 	void draw(const DrawArgs& args) override {
 		// Background
 		nvgBeginPath(args.vg);
-		nvgRoundedRect(args.vg, 0, 0, box.size.x, box.size.y, 2);
+		nvgRoundedRect(args.vg, 0, 0, getX(), getY(), 2);
 		nvgFillColor(args.vg, nvgRGB(0x19, 0x19, 0x19));
 		nvgFill(args.vg);
 
@@ -78,7 +78,7 @@ struct DigitalDisplay : Widget {
 
 		// Background text
 		nvgFillColor(args.vg, bgColor);
-		nvgText(args.vg, textPos.x, textPos.y, bgText.c_str(), NULL);
+		nvgText(args.vg, textPos.getX(), textPos.getY(), bgText.c_str(), NULL);
 	}
 
 	void drawLayer(const DrawArgs& args, int layer) override {
@@ -87,7 +87,7 @@ struct DigitalDisplay : Widget {
 
 			// Foreground text
 			nvgFillColor(args.vg, fgColor);
-			nvgText(args.vg, textPos.x, textPos.y, text.c_str(), NULL);
+			nvgText(args.vg, textPos.getX(), textPos.getY(), text.c_str(), NULL);
 		}
 		Widget::drawLayer(args, layer);
 	}
@@ -135,7 +135,7 @@ struct VCVBezelLightBig : TBase {
 	VCVBezelLightBig() {
 		this->borderColor = color::BLACK_TRANSPARENT;
 		this->bgColor = color::BLACK_TRANSPARENT;
-		this->box.size = mm2px(math::Vec(11.1936, 11.1936));
+		this->setSize(mm2px(math::Vec(11.1936, 11.1936)));
 	}
 };
 

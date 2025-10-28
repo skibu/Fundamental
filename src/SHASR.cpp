@@ -143,9 +143,9 @@ struct SHASRWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/SHASR.svg"), asset::plugin(pluginInstance, "res/SHASR-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(6.96, 21.852)), module, SHASR::RND_PARAM, SHASR::RND_LIGHT));
 		addParam(createLightParamCentered<VCVLightBezel<WhiteLight>>(mm2px(Vec(17.788, 21.852)), module, SHASR::PUSH_PARAM, SHASR::PUSH_LIGHT));

@@ -367,7 +367,7 @@ struct WTDisplay : LedDisplay {
 			nvgScissor(args.vg, RECT_ARGS(args.clipBox));
 			nvgBeginPath(args.vg);
 			Vec scopePos = Vec(0.0, 13.0);
-			Rect scopeRect = Rect(scopePos, box.size - scopePos);
+			Rect scopeRect = Rect(scopePos, getSize() - scopePos);
 			scopeRect = scopeRect.shrink(Vec(4, 5));
 			size_t iSkip = wavetable.waveLen / 128 + 1;
 
@@ -384,10 +384,8 @@ struct WTDisplay : LedDisplay {
 				}
 
 				// Add point to line
-				Vec p;
-				p.x = float(i) / wavetable.waveLen;
-				p.y = 0.5f - 0.5f * wave;
-				p = scopeRect.pos + scopeRect.size * p;
+				Vec p(float(i) / wavetable.waveLen, 0.5f - 0.5f * wave);
+				p = scopeRect.getPos() + scopeRect.getSize() * p;
 				if (i == 0)
 					nvgMoveTo(args.vg, VEC_ARGS(p));
 				else

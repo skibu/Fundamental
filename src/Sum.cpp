@@ -116,9 +116,9 @@ struct SumWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/Sum.svg"), asset::plugin(pluginInstance, "res/Sum-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.62, 64.284)), module, Sum::LEVEL_PARAM));
 
@@ -127,7 +127,7 @@ struct SumWidget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 113.066)), module, Sum::MONO_OUTPUT));
 
 		SumDisplay* display = createWidget<SumDisplay>(mm2px(Vec(0.0, 13.039)));
-		display->box.size = mm2px(Vec(15.241, 36.981));
+		display->setSize(mm2px(Vec(15.241, 36.981)));
 		display->module = module;
 		addChild(display);
 
@@ -139,7 +139,7 @@ struct SumWidget : ModuleWidget {
 		addChild(createLightCentered<SmallSimpleLight<GreenLight>>(mm2px(Vec(10.808, 44.568)), module, Sum::VU_LIGHTS + 5));
 
 		SumChannelDisplay* channelDisplay = createWidget<SumChannelDisplay>(mm2px(Vec(3.521, 77.191)));
-		channelDisplay->box.size = mm2px(Vec(8.197, 8.197));
+		channelDisplay->setSize(mm2px(Vec(8.197, 8.197)));
 		channelDisplay->module = module;
 		addChild(channelDisplay);
 	}

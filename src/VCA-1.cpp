@@ -71,7 +71,7 @@ struct VCA_1VUKnob : SliderKnob {
 
 		VCA_1* module = dynamic_cast<VCA_1*>(this->module);
 
-		Rect r = box.zeroPos();
+		Rect r = getBox().zeroPos();
 		NVGcolor bgColor = nvgRGB(0x12, 0x12, 0x12);
 
 		int channels = module ? module->lastChannels : 1;
@@ -82,10 +82,10 @@ struct VCA_1VUKnob : SliderKnob {
 		if (value >= 0.005f) {
 			nvgBeginPath(args.vg);
 			nvgRect(args.vg,
-			        r.pos.x,
-			        r.pos.y + r.size.y * (1 - value),
-			        r.size.x,
-			        r.size.y * value);
+			        r.getX(),
+			        r.getY() + r.getHeight() * (1 - value),
+			        r.getWidth(),
+			        r.getHeight() * value);
 			nvgFillColor(args.vg, color::mult(color::WHITE, 0.25));
 			nvgFill(args.vg);
 		}
@@ -98,10 +98,10 @@ struct VCA_1VUKnob : SliderKnob {
 			if (gain >= 0.005f) {
 				segmentFill = true;
 				nvgRect(args.vg,
-				        r.pos.x + r.size.x * c / channels,
-				        r.pos.y + r.size.y * (1 - gain),
-				        r.size.x / channels,
-				        r.size.y * gain);
+						r.getX() + r.getWidth() * c / channels,
+						r.getY() + r.getHeight() * (1 - gain),
+						r.getWidth() / channels,
+						r.getHeight() * gain);
 			}
 		}
 		nvgFillColor(args.vg, SCHEME_YELLOW);
@@ -115,10 +115,10 @@ struct VCA_1VUKnob : SliderKnob {
 		nvgBeginPath(args.vg);
 		for (int i = 1; i < segs; i++) {
 			nvgRect(args.vg,
-			        r.pos.x - 1.0,
-			        r.pos.y + r.size.y * i / segs,
-			        r.size.x + 2.0,
-			        1.0);
+					r.getX() - 1.0,
+					r.getY() + r.getHeight() * i / segs,
+					r.getWidth() + 2.0,
+					1.0);
 		}
 		nvgFillColor(args.vg, bgColor);
 		nvgFill(args.vg);
@@ -136,9 +136,9 @@ struct VCA_1Widget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/VCA-1.svg"), asset::plugin(pluginInstance, "res/VCA-1-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 80.603)), module, VCA_1::CV_INPUT));
 		addInput(createInputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 96.859)), module, VCA_1::IN_INPUT));
@@ -146,11 +146,11 @@ struct VCA_1Widget : ModuleWidget {
 		addOutput(createOutputCentered<ThemedPJ301MPort>(mm2px(Vec(7.62, 113.115)), module, VCA_1::OUT_OUTPUT));
 
 		VCA_1Display* display = createWidget<VCA_1Display>(mm2px(Vec(0.0, 13.039)));
-		display->box.size = mm2px(Vec(15.263, 55.88));
+		display->setSize(mm2px(Vec(15.263, 55.88)));
 		addChild(display);
 
 		VCA_1VUKnob* knob = createParam<VCA_1VUKnob>(mm2px(Vec(2.253, 15.931)), module, VCA_1::LEVEL_PARAM);
-		knob->box.size = mm2px(Vec(10.734, 50.253));
+		knob->setSize(mm2px(Vec(10.734, 50.253)));
 		addChild(knob);
 	}
 

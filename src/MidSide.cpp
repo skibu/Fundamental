@@ -94,9 +94,9 @@ struct MidSideWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/MidSide.svg"), asset::plugin(pluginInstance, "res/MidSide-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.285, 25.203)), module, MidSide::ENC_WIDTH_PARAM));
 		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(7.285, 80.583)), module, MidSide::DEC_WIDTH_PARAM));

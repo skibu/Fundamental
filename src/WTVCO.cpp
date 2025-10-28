@@ -286,9 +286,9 @@ struct WTVCOWidget : ModuleWidget {
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/WTVCO.svg"), asset::plugin(pluginInstance, "res/WTVCO-dark.svg")));
 
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ThemedScrew>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ThemedScrew>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ThemedScrew>(Vec(getWidth() - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
 		addParam(createParamCentered<RoundLargeBlackKnob>(mm2px(Vec(8.915, 56.388)), module, WTVCO::FREQ_PARAM));
 		addParam(createParamCentered<RoundLargeBlackKnob>(mm2px(Vec(26.645, 56.388)), module, WTVCO::POS_PARAM));
@@ -307,7 +307,7 @@ struct WTVCOWidget : ModuleWidget {
 		addChild(createLightCentered<SmallLight<RedGreenBlueLight>>(mm2px(Vec(17.733, 49.409)), module, WTVCO::PHASE_LIGHT));
 
 		WTDisplay<WTVCO>* display = createWidget<WTDisplay<WTVCO>>(mm2px(Vec(0.004, 13.04)));
-		display->box.size = mm2px(Vec(35.56, 29.224));
+		display->setSize(mm2px(Vec(35.56, 29.224)));
 		display->module = module;
 		addChild(display);
 	}
