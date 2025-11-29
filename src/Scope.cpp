@@ -450,8 +450,8 @@ struct ScopeDisplay : LedDisplay {
 		PortWidget* inputY = moduleWidget->getInput(Scope::Y_INPUT);
 		CableWidget* inputXCable = getRack()->getTopCable(inputX);
 		CableWidget* inputYCable = getRack()->getTopCable(inputY);
-		NVGcolor inputXColor = inputXCable ? inputXCable->color : SCHEME_YELLOW;
-		NVGcolor inputYColor = inputYCable ? inputYCable->color : SCHEME_YELLOW;
+		NVGcolor inputXColor = inputXCable ? inputXCable->getColor() : SCHEME_YELLOW;
+		NVGcolor inputYColor = inputYCable ? inputYCable->getColor() : SCHEME_YELLOW;
 
 		// Draw waveforms
 		int channelsY = module ? module->channelsY : 1;
